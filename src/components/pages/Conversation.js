@@ -15,7 +15,7 @@ const Conversation = ({ showHistory, chatHistory, hideHistory }) => {
               <div className="history-list">
                 {chatHistory.map((msg, index) => (
                   <div key={index} className={`history-message ${msg.sender}`}>
-                    <strong>{msg.sender === 'user' ? 'User' : 'Bot'}</strong> {msg.text}
+                    <strong>{msg.sender === 'user' ? 'User' : 'Assistant'}</strong> {msg.text}
                   </div>
                 ))}
               </div>

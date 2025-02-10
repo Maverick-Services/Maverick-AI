@@ -10,7 +10,7 @@ import { IoDocumentTextOutline } from "react-icons/io5"
 import { TbHistoryOff } from "react-icons/tb";
 import { IoChevronForward } from "react-icons/io5";
 
-const Chatbot = () => {
+const Chatbot = ({toggleChatbot}) => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false); // Track loading state
@@ -162,7 +162,54 @@ const speak = (text) => {
 };
 
 
-const handleSendMessage = async (userMessage = userInput) => {
+// const handleSendMessage = async (userMessage = userInput) => {
+//   if (!userMessage.trim()) return;
+
+//   // Add the user's message to the chat
+//   const userMsg = { text: userMessage, sender: 'user' };
+//   setMessages((prevMessages) => [...prevMessages, userMsg]);
+//   setChatHistory((prevHistory) => [...prevHistory, userMsg]);
+//   setUserInput('');
+//   setLoading(true);
+
+//   try {
+//     const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
+//     const botResponse = response.data.botResponse;
+//     // Display the bot's message after a short delay
+//     setTimeout(() => {
+//       const botMsg = { text: botResponse, sender: 'bot' };
+//       setMessages((prevMessages) => [...prevMessages, botMsg]);
+//       setChatHistory((prevHistory) => [...prevHistory, botMsg]);
+//       setLoading(false);
+      
+//       setIsResponding(false)
+//       // Handle options based on bot's response
+//       if (botResponse.toLowerCase().includes('what services are you interested in?')) {
+//         setShowOptions(true);
+//       } else {
+//         setShowOptions(false);
+//       }
+      
+//       // Speak out the bot's response
+//       speak(botResponse);
+//     }, 2000);
+//   } catch (error) {
+//     console.error('Error fetching bot response:', error);
+//     const errorMsg = { text: "Sorry, I couldn't get a response.", sender: 'bot' };
+//     setMessages((prevMessages) => [...prevMessages, errorMsg]);
+//     setChatHistory((prevHistory) => [...prevHistory, errorMsg]);
+//     setLoading(false);
+//   }
+// };
+
+
+
+const handleSendMessage = async (userMessage = '') => {
+  if (typeof userMessage !== 'string') {
+    console.error('Invalid userMessage:', userMessage);
+    return;
+  }
+
   if (!userMessage.trim()) return;
 
   // Add the user's message to the chat
@@ -175,23 +222,20 @@ const handleSendMessage = async (userMessage = userInput) => {
   try {
     const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
     const botResponse = response.data.botResponse;
-    // Display the bot's message after a short delay
+    
     setTimeout(() => {
       const botMsg = { text: botResponse, sender: 'bot' };
       setMessages((prevMessages) => [...prevMessages, botMsg]);
       setChatHistory((prevHistory) => [...prevHistory, botMsg]);
       setLoading(false);
-      
-      setIsResponding(false)
-      // Handle options based on bot's response
+      setIsResponding(false);
+
       if (botResponse.toLowerCase().includes('what services are you interested in?')) {
         setShowOptions(true);
       } else {
         setShowOptions(false);
       }
       
-      // Speak out the bot's response
-      speak(botResponse);
     }, 2000);
   } catch (error) {
     console.error('Error fetching bot response:', error);
@@ -201,6 +245,7 @@ const handleSendMessage = async (userMessage = userInput) => {
     setLoading(false);
   }
 };
+
 
 const handleVoiceInput = () => {
   window.speechSynthesis.cancel();
@@ -342,6 +387,7 @@ const handleVoiceInput = () => {
         <>
           <div className="search-popup">
             <div className="Initiat-message">
+            <button className="close-button" onClick={toggleChatbot}>&times;</button>
               <h1>Hi there 👋</h1>
               <p>Need help? Search our help center for answers or start a conversation:</p>
             </div>
@@ -438,7 +484,7 @@ const handleVoiceInput = () => {
       <i>Ad-free <strong>live chat</strong> to Maverick AI Assistant</i>
     </a>
   </div>
-  
+ 
 
 
 
