@@ -220,8 +220,8 @@ const Chatbot = ({ toggleChatbot }) => {
     setLoading(true);
 
     try {
-      // const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
-      const response = await axios.post('http://localhost:5000/api/chat', { message: userMessage });
+      const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
+      // const response = await axios.post('http://localhost:5000/api/chat', { message: userMessage });
       const botResponse = response.data.botResponse;
 
       setTimeout(() => {
