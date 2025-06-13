@@ -14,17 +14,17 @@ function App() {
   return (
     <div className="App">
       {/* Button to toggle chatbot visibility */}
-      <button className="chatbot-button" onClick={toggleChatbot}>
+      {/* <button className="chatbot-button" onClick={toggleChatbot}>
         {showChatbot ? <i><IoIosClose size={30} /></i> :
           <i><TbMessageChatbot size={30} /></i>}
-      </button>
+      </button> */}
 
       {/* Render Chatbot above the button when showChatbot is true */}
-      {showChatbot && (
-        <div className="chatbot-container-above">
-          <Chatbot toggleChatbot={toggleChatbot} />
-        </div>
-      )}
+      {/* {showChatbot && ( */}
+      <div className="chatbot-container-above">
+        <Chatbot toggleChatbot={toggleChatbot} />
+      </div>
+      {/* )} */}
     </div>
   );
 }

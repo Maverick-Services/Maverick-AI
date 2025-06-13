@@ -10,7 +10,7 @@ import { IoDocumentTextOutline } from "react-icons/io5"
 import { TbHistoryOff } from "react-icons/tb";
 import { IoChevronForward } from "react-icons/io5";
 
-const Chatbot = ({toggleChatbot}) => {
+const Chatbot = ({ toggleChatbot }) => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false); // Track loading state
@@ -23,14 +23,14 @@ const Chatbot = ({toggleChatbot}) => {
   const chatWindowRef = useRef(null); // Reference to chat window for auto-scrolling
   const [feedback, setFeedback] = useState('')
   const searchResultRef = useRef(null);
-  const [isChatbot,setIsChatbot]=useState(true)
-  const [conversation,setConversation]=useState(false)
+  const [isChatbot, setIsChatbot] = useState(true)
+  const [conversation, setConversation] = useState(false)
   const [isOnline, setIsOnline] = useState(false);
-  const [isResponding,setIsResponding]=useState(true)
+  const [isResponding, setIsResponding] = useState(true)
   const [isRecording, setIsRecording] = useState(false);
 
   const searchIntents = [
-   
+
     { tag: "services", patterns: ["What services do you offer?", "Tell me about your services", "What can you do for me?", "What services do you provide?"], responses: "We provide IT services such as Digital Presence Management and Core Technical Services. What services are you interested in?- Digital Presence Management\n- IT Core Technical Services" },
     {
       tag: "digital_presence_management",
@@ -62,7 +62,7 @@ const Chatbot = ({toggleChatbot}) => {
     },
     {
       tag: "contact",
-      patterns: ["How can I contact you?","how to connect", "How do I get in touch?", "What is your contact information?", "Can I reach you online?"],
+      patterns: ["How can I contact you?", "how to connect", "How do I get in touch?", "What is your contact information?", "Can I reach you online?"],
       responses: [
         "You can contact us through the contact form on our website at https://maverickservices.in/contact-us/. Alternatively, you can call us or email us through the details provided on our site."
       ]
@@ -96,7 +96,7 @@ const Chatbot = ({toggleChatbot}) => {
   const toggleChatbotState = () => {
     setIsChatbot((prev) => !prev); // Toggle the chatbot state
   };
-  
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       // Check if userInput matches any patterns in searchIntents
@@ -105,9 +105,9 @@ const Chatbot = ({toggleChatbot}) => {
           pattern.toLowerCase().includes(userInput.toLowerCase())
         )
       );
-  
+
       toggleChatbotState(); // Toggle chatbot state on Enter press
-  
+
       if (matches.length === 0) {
         // No matches found
         setSearchResults([]); // Clear previous results
@@ -119,8 +119,8 @@ const Chatbot = ({toggleChatbot}) => {
       }
     }
   };
-  
-  
+
+
   const handleInputChange = (e) => {
     const input = e.target.value;
     setUserInput(input);
@@ -131,162 +131,163 @@ const Chatbot = ({toggleChatbot}) => {
     );
     setSuggestions(filteredSuggestions);
   };
-  
-  
+
+
   const handleSuggestionClick = (suggestion) => {
     toggleChatbotState(); // Toggle chatbot state on suggestion click
-  
+
     setUserInput(suggestion);
     setSuggestions([]);
-  
+
     const filteredResults = searchIntents.filter((intent) =>
       intent.patterns.some((pattern) =>
         pattern.toLowerCase().includes(suggestion.toLowerCase())
       )
     );
-  
+
     setSearchResults(filteredResults);
     setSearchResultVisible(true);
-  
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: suggestion, sender: 'user' },
     ]);
   };
-  
-// Text-to-Speech function
-const speak = (text) => {
-  const synth = window.speechSynthesis;
-  const utterance = new SpeechSynthesisUtterance(text);
-  synth.speak(utterance);
-};
+
+  // Text-to-Speech function
+  const speak = (text) => {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
+    synth.speak(utterance);
+  };
 
 
-// const handleSendMessage = async (userMessage = userInput) => {
-//   if (!userMessage.trim()) return;
+  // const handleSendMessage = async (userMessage = userInput) => {
+  //   if (!userMessage.trim()) return;
 
-//   // Add the user's message to the chat
-//   const userMsg = { text: userMessage, sender: 'user' };
-//   setMessages((prevMessages) => [...prevMessages, userMsg]);
-//   setChatHistory((prevHistory) => [...prevHistory, userMsg]);
-//   setUserInput('');
-//   setLoading(true);
+  //   // Add the user's message to the chat
+  //   const userMsg = { text: userMessage, sender: 'user' };
+  //   setMessages((prevMessages) => [...prevMessages, userMsg]);
+  //   setChatHistory((prevHistory) => [...prevHistory, userMsg]);
+  //   setUserInput('');
+  //   setLoading(true);
 
-//   try {
-//     const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
-//     const botResponse = response.data.botResponse;
-//     // Display the bot's message after a short delay
-//     setTimeout(() => {
-//       const botMsg = { text: botResponse, sender: 'bot' };
-//       setMessages((prevMessages) => [...prevMessages, botMsg]);
-//       setChatHistory((prevHistory) => [...prevHistory, botMsg]);
-//       setLoading(false);
-      
-//       setIsResponding(false)
-//       // Handle options based on bot's response
-//       if (botResponse.toLowerCase().includes('what services are you interested in?')) {
-//         setShowOptions(true);
-//       } else {
-//         setShowOptions(false);
-//       }
-      
-//       // Speak out the bot's response
-//       speak(botResponse);
-//     }, 2000);
-//   } catch (error) {
-//     console.error('Error fetching bot response:', error);
-//     const errorMsg = { text: "Sorry, I couldn't get a response.", sender: 'bot' };
-//     setMessages((prevMessages) => [...prevMessages, errorMsg]);
-//     setChatHistory((prevHistory) => [...prevHistory, errorMsg]);
-//     setLoading(false);
-//   }
-// };
+  //   try {
+  //     const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
+  //     const botResponse = response.data.botResponse;
+  //     // Display the bot's message after a short delay
+  //     setTimeout(() => {
+  //       const botMsg = { text: botResponse, sender: 'bot' };
+  //       setMessages((prevMessages) => [...prevMessages, botMsg]);
+  //       setChatHistory((prevHistory) => [...prevHistory, botMsg]);
+  //       setLoading(false);
+
+  //       setIsResponding(false)
+  //       // Handle options based on bot's response
+  //       if (botResponse.toLowerCase().includes('what services are you interested in?')) {
+  //         setShowOptions(true);
+  //       } else {
+  //         setShowOptions(false);
+  //       }
+
+  //       // Speak out the bot's response
+  //       speak(botResponse);
+  //     }, 2000);
+  //   } catch (error) {
+  //     console.error('Error fetching bot response:', error);
+  //     const errorMsg = { text: "Sorry, I couldn't get a response.", sender: 'bot' };
+  //     setMessages((prevMessages) => [...prevMessages, errorMsg]);
+  //     setChatHistory((prevHistory) => [...prevHistory, errorMsg]);
+  //     setLoading(false);
+  //   }
+  // };
 
 
 
-const handleSendMessage = async (userMessage = '') => {
-  if (typeof userMessage !== 'string') {
-    console.error('Invalid userMessage:', userMessage);
-    return;
-  }
+  const handleSendMessage = async (userMessage = '') => {
+    if (typeof userMessage !== 'string') {
+      console.error('Invalid userMessage:', userMessage);
+      return;
+    }
 
-  if (!userMessage.trim()) return;
+    if (!userMessage.trim()) return;
 
-  // Add the user's message to the chat
-  const userMsg = { text: userMessage, sender: 'user' };
-  setMessages((prevMessages) => [...prevMessages, userMsg]);
-  setChatHistory((prevHistory) => [...prevHistory, userMsg]);
-  setUserInput('');
-  setLoading(true);
+    // Add the user's message to the chat
+    const userMsg = { text: userMessage, sender: 'user' };
+    setMessages((prevMessages) => [...prevMessages, userMsg]);
+    setChatHistory((prevHistory) => [...prevHistory, userMsg]);
+    setUserInput('');
+    setLoading(true);
 
-  try {
-    const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
-    const botResponse = response.data.botResponse;
-    
-    setTimeout(() => {
-      const botMsg = { text: botResponse, sender: 'bot' };
-      setMessages((prevMessages) => [...prevMessages, botMsg]);
-      setChatHistory((prevHistory) => [...prevHistory, botMsg]);
+    try {
+      // const response = await axios.post('https://maverick-backend-lfah.onrender.com/api/chat', { message: userMessage });
+      const response = await axios.post('http://localhost:5000/api/chat', { message: userMessage });
+      const botResponse = response.data.botResponse;
+
+      setTimeout(() => {
+        const botMsg = { text: botResponse, sender: 'bot' };
+        setMessages((prevMessages) => [...prevMessages, botMsg]);
+        setChatHistory((prevHistory) => [...prevHistory, botMsg]);
+        setLoading(false);
+        setIsResponding(false);
+
+        if (botResponse.toLowerCase().includes('what services are you interested in?')) {
+          setShowOptions(true);
+        } else {
+          setShowOptions(false);
+        }
+
+      }, 2000);
+    } catch (error) {
+      console.error('Error fetching bot response:', error);
+      const errorMsg = { text: "Sorry, I couldn't get a response.", sender: 'bot' };
+      setMessages((prevMessages) => [...prevMessages, errorMsg]);
+      setChatHistory((prevHistory) => [...prevHistory, errorMsg]);
       setLoading(false);
-      setIsResponding(false);
-
-      if (botResponse.toLowerCase().includes('what services are you interested in?')) {
-        setShowOptions(true);
-      } else {
-        setShowOptions(false);
-      }
-      
-    }, 2000);
-  } catch (error) {
-    console.error('Error fetching bot response:', error);
-    const errorMsg = { text: "Sorry, I couldn't get a response.", sender: 'bot' };
-    setMessages((prevMessages) => [...prevMessages, errorMsg]);
-    setChatHistory((prevHistory) => [...prevHistory, errorMsg]);
-    setLoading(false);
-  }
-};
-
-
-const handleVoiceInput = () => {
-  window.speechSynthesis.cancel();
-  const recognition = new window.webkitSpeechRecognition();
-  recognition.lang = 'en-US';
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-
-    // Update the user input field with the voice input
-    setUserInput(transcript);
-
-    // Call the handleSendMessage function to process the user's message
-    // Do not add the user message here manually since it's already done in handleSendMessage
-    handleSendMessage(transcript);
-  };
-
-  recognition.onerror = (error) => {
-    console.error('Speech recognition error:', error);
+    }
   };
 
 
-  setIsRecording(true); // Activate recording UI
-   
+  const handleVoiceInput = () => {
+    window.speechSynthesis.cancel();
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+
+      // Update the user input field with the voice input
+      setUserInput(transcript);
+
+      // Call the handleSendMessage function to process the user's message
+      // Do not add the user message here manually since it's already done in handleSendMessage
+      handleSendMessage(transcript);
+    };
+
+    recognition.onerror = (error) => {
+      console.error('Speech recognition error:', error);
+    };
+
+
+    setIsRecording(true); // Activate recording UI
+
     // Simulate stopping recording after some time
     setTimeout(() => setIsRecording(false), 3000);
-};
+  };
 
 
-  
+
   const handleOptionClick = (option) => {
     setUserInput(option);
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text:`${option}`, sender: 'user' },
+      { text: `${option}`, sender: 'user' },
     ]);
     setShowOptions(false);
     setLoading(true);
     setUserInput("");
-  
+
     axios
       .post('https://maverick-backend-lfah.onrender.com/api/chat', { message: option })
       .then((response) => {
@@ -302,25 +303,25 @@ const handleVoiceInput = () => {
         setLoading(false);
       });
   };
-  
+
   const toggleHistory = () => {
     setShowHistory((prev) => !prev);
     toggleChatbotState(); // Toggle chatbot state when showing history
   };
-  
+
   const startNewConversation = () => {
     toggleChatbotState(); // Toggle chatbot state to start a new conversation
     setConversation((prev) => !prev);
-  
+
     setMessages([]);
     setUserInput('');
     setSuggestions([]);
     setSearchResultVisible(false);
     setChatHistory([]);
-  
+
     const initialMessages = [{ text: "...", sender: "bot", className: "loading" }];
     setMessages(initialMessages);
-  
+
     setTimeout(() => {
       const welcomeMessage = { text: 'Good morning and welcome to Maverick', sender: 'bot' };
       const assistMessage = { text: 'How may I assist you today?', sender: 'bot' };
@@ -329,7 +330,7 @@ const handleVoiceInput = () => {
       setLoading(false);
     }, 2000);
   };
-  
+
   const goBackToChat = () => {
     window.speechSynthesis.cancel();
     setMessages([]);
@@ -338,20 +339,20 @@ const handleVoiceInput = () => {
     toggleChatbotState(); // Toggle chatbot state when going back to chat
     setConversation(false);
   };
-  
+
   const SearchPop = () => {
     setSearchResultVisible(false);
     toggleChatbotState(); // Toggle chatbot state when closing search results
     setUserInput('');
     setFeedback('');
   };
-  
+
   useEffect(() => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   }, [messages]);
-  
+
   useEffect(() => {
     if (searchResultRef.current) {
       searchResultRef.current.scrollTop = searchResultRef.current.scrollHeight;
@@ -363,128 +364,124 @@ const handleVoiceInput = () => {
     const timer = setTimeout(() => {
       setIsOnline(true);
     }, 2000);
-  
+
     return () => clearTimeout(timer);
   }, []);
-  
-  
-  
-  
+
+
+
+
   const hideHistory = () => {
     toggleChatbotState(); // Toggle chatbot state when hiding history
     setShowHistory(false);
   };
 
-  
-  
-  
-  
-  
+
+
+
+
+
   return (
     <div className="chatbot-wrapper">
-    <div className="chatbot-container">
-      {isChatbot ? (
-        <>
-          <div className="search-popup">
-            <div className="Initiat-message">
-            <button className="close-button" onClick={toggleChatbot}>&times;</button>
-              <h1>Hi there 👋</h1>
-              <p>Need help? Search our help center for answers or start a conversation:</p>
-            </div>
-            <div className="search-column">
-              <div className="search-input">
-                <input
-                  type="text"
-                  value={userInput}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyPress}
-                  placeholder="Search your answers"
-                />
-                <FaSearch className="icons" onClick={handleKeyPress} />
+      <div className="chatbot-container">
+        {isChatbot ? (
+          <>
+            <div className="search-popup">
+              <div className="Initiat-message">
+                <button className="close-button" onClick={toggleChatbot}>&times;</button>
+                <h1>Hi there 👋</h1>
+                <p>Need help? Search our help center for answers or start a conversation:</p>
               </div>
-              {userInput.trim() && (
-                <div className="suggestions">
-                  {suggestions.map((suggestion, index) => (
-                    <div
-                      key={index}
-                      className="suggestion-item"
-                      onClick={() => handleSuggestionClick(suggestion.patterns[0])}
-                    >
-                      <i><IoDocumentTextOutline size={17} /></i>
-                      {suggestion.patterns[0]}
+              <div className="search-column">
+                <div className="search-input">
+                  <input
+                    type="text"
+                    value={userInput}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyPress}
+                    placeholder="Search your answers"
+                  />
+                  <FaSearch className="icons" onClick={handleKeyPress} />
+                </div>
+                {userInput.trim() && (
+                  <div className="suggestions">
+                    {suggestions.map((suggestion, index) => (
+                      <div
+                        key={index}
+                        className="suggestion-item"
+                        onClick={() => handleSuggestionClick(suggestion.patterns[0])}
+                      >
+                        <i><IoDocumentTextOutline size={17} /></i>
+                        {suggestion.patterns[0]}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="newConversation">
+                <div className="new-conversation-button" onClick={startNewConversation}>
+                  <i><IoSend size={20} /></i> New Conversation
+                </div>
+              </div>
+            </div>
+            <div className="history-button" onClick={toggleHistory}>
+              {showHistory ? (
+                <span className="hideHistory"><TbHistoryOff size={28} /></span>
+              ) : (
+                <div className="history-button1">
+                  <p>Conversations</p>
+                  <div className="history-avatar">
+                    <img
+                      src="https://s3.amazonaws.com/tawk-to-pi/bot/025e0d0c0f63f2e08bbe8376"
+                      height={50}
+                      width={50}
+                      alt="avatar"
+                    />
+                    <div className="history-messages">
+                      <span className="assistant-name">Maverick AI Assistant</span>
+                      <span className="assistant-message">How may I assist you?</span>
                     </div>
-                  ))}
+                    <span><IoChevronForward size={30} /></span>
+                  </div>
                 </div>
               )}
             </div>
-            <div className="newConversation">
-              <div className="new-conversation-button" onClick={startNewConversation}>
-                <i><IoSend size={20} /></i> New Conversation
-              </div>
-            </div>
-          </div>
-          <div className="history-button" onClick={toggleHistory}>
-            {showHistory ? (
-              <span className="hideHistory"><TbHistoryOff size={28} /></span>
-            ) : (
-              <div className="history-button1">
-                <p>Conversations</p>
-                <div className="history-avatar">
-                  <img
-                    src="https://s3.amazonaws.com/tawk-to-pi/bot/025e0d0c0f63f2e08bbe8376"
-                    height={50}
-                    width={50}
-                    alt="avatar"
-                  />
-                  <div className="history-messages">
-                    <span className="assistant-name">Maverick AI Assistant</span>
-                    <span className="assistant-message">How may I assist you?</span>
-                  </div>
-                  <span><IoChevronForward size={30} /></span>
-                </div>
-              </div>
-            )}
-          </div>
-        </>
-      ) : searchResultVisible ? (
-        <SearchResult 
-        searchResultRef={searchResultRef}
-        SearchPop={SearchPop}
-        searchResults={searchResults}
-        userInput={userInput}
-        feedback={feedback}
-        setFeedback={setFeedback}
-        ></SearchResult>
-      ) : conversation ? (
-        <Assistant
-        goBackToChat={goBackToChat} 
-        isOnline={isOnline}
-        messages={messages}
-        loading={loading}
-        showOptions={showOptions}
-        userInput={userInput}
-        setUserInput={setUserInput}
-        handleSendMessage={handleSendMessage}
-        handleVoiceInput={handleVoiceInput}
-        handleOptionClick={handleOptionClick}
-        chatWindowRef={chatWindowRef}
-        isRecording={isRecording}
-        setIsRecording={setIsRecording}
-        ></Assistant>        
-      ) : (
-        <Conversation
-        showHistory={showHistory}
-        chatHistory={chatHistory}
-        hideHistory={hideHistory}
-         />
-      )}
+          </>
+        ) : searchResultVisible ? (
+          <SearchResult
+            searchResultRef={searchResultRef}
+            SearchPop={SearchPop}
+            searchResults={searchResults}
+            userInput={userInput}
+            feedback={feedback}
+            setFeedback={setFeedback}
+          ></SearchResult>
+        ) : conversation ? (
+          <Assistant
+            goBackToChat={goBackToChat}
+            isOnline={isOnline}
+            messages={messages}
+            loading={loading}
+            showOptions={showOptions}
+            userInput={userInput}
+            setUserInput={setUserInput}
+            handleSendMessage={handleSendMessage}
+            handleVoiceInput={handleVoiceInput}
+            handleOptionClick={handleOptionClick}
+            chatWindowRef={chatWindowRef}
+            isRecording={isRecording}
+            setIsRecording={setIsRecording}
+          ></Assistant>
+        ) : (
+          <Conversation
+            showHistory={showHistory}
+            chatHistory={chatHistory}
+            hideHistory={hideHistory}
+          />
+        )}
+      </div>
     </div>
-    <a className="free-Livechat">
-      <img src="https://www.tawk.to/wp-content/uploads/2020/04/tawk-sitelogo.png" height={23} width={23} alt="Tawk logo" />
-      <i>Ad-free <strong>live chat</strong> to Maverick AI Assistant</i>
-    </a>
-  </div>
- 
+
 
 
 
