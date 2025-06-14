@@ -25,15 +25,15 @@ const Message = ({ text, sender, className }) => {
   return (
     <div className={`message ${sender === 'user' ? 'user-message' : 'bot-message'} ${className || ''}`}>
       {sender === 'bot' && (
-        
+
         <img
-          src="https://s3.amazonaws.com/tawk-to-pi/bot/025e0d0c0f63f2e08bbe8376"
+          src="./logo_light.png"
           height={30}
           width={30}
           alt="avatar"
           className="bot-avatar"
         />
-        
+
       )}
       {text === '...' ? (
         <div className="loading-indicator">
@@ -43,7 +43,7 @@ const Message = ({ text, sender, className }) => {
         </div>
       ) : (
         <div className="bot-message-container">
-        <p>{renderMessageWithLinks(text)}</p>
+          <p>{renderMessageWithLinks(text)}</p>
         </div>
       )}
     </div>

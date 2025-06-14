@@ -15,7 +15,8 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #0352a8;
+  /* background-color: #0352a8; */
+  background-color: #AF52ED;
   color: black;
   padding: 10px;
   border-radius: 50%;
@@ -33,7 +34,8 @@
 }
 
 .chatbot-button:hover {
-  background-color: #0352a8;
+  /* background-color: #0352a8; */
+  background-color: #AF52ED;
 }
 
 /* Container for chatbot when it opens above the button */

@@ -388,7 +388,7 @@ const Chatbot = ({ toggleChatbot }) => {
           <>
             <div className="search-popup">
               <div className="Initiat-message">
-                <button className="close-button" onClick={toggleChatbot}>&times;</button>
+                {/* <button className="close-button" onClick={toggleChatbot}>&times;</button> */}
                 <h1>Hi there 👋</h1>
                 <p>Need help? Search our help center for answers or start a conversation:</p>
               </div>
@@ -432,7 +432,7 @@ const Chatbot = ({ toggleChatbot }) => {
                   <p>Conversations</p>
                   <div className="history-avatar">
                     <img
-                      src="https://s3.amazonaws.com/tawk-to-pi/bot/025e0d0c0f63f2e08bbe8376"
+                      src="./logo_light.png"
                       height={50}
                       width={50}
                       alt="avatar"

@@ -27,7 +27,7 @@ const Assistant = ({
         <IoMdArrowBack onClick={goBackToChat} style={{ cursor: "pointer" }} size={22} />
         <div className="avatar">
           <img
-            src="https://s3.amazonaws.com/tawk-to-pi/bot/025e0d0c0f63f2e08bbe8376"
+            src="./logo_dark.png"
             height={35}
             width={35}
             alt="avatar"
