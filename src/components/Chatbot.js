@@ -289,7 +289,7 @@ const Chatbot = ({ toggleChatbot }) => {
     setUserInput("");
 
     axios
-      .post('https://maverick-backend-lfah.onrender.com/api/chat', { message: option })
+      .post('https://maverick-chatbot-backend.vercel.app/api/chat', { message: option })
       .then((response) => {
         const botResponse = response.data.botResponse;
         const botMessage = { text: botResponse, sender: 'bot' };
